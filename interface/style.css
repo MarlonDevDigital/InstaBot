@@ -1,0 +1,1863 @@
+/**
+ * InstaBot v1.0 - Interface Principal
+ * NOVA IDENTIDADE VISUAL: Verde Neon + Preto (Estilo Cyber/Hacker)
+ */
+
+/* Reset Global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+    background: #000000;
+    color: #FFFFFF;
+}
+
+/* Barra Superior Unificada */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: #000000;
+    border-bottom: 2px solid #00FF5E;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 1000;
+    -webkit-app-region: drag;
+    box-shadow: 0 2px 10px rgba(0, 255, 94, 0.3);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 50px; 
+    height: 50px;
+    border-radius: 15%;
+    object-fit: contain;
+    border: 1px solid #00FF5E;
+    filter: drop-shadow(0 0 8px #00FF5E);
+    margin-left: -6px;
+    margin-right: 15px;
+}
+
+.header-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    flex: 1;
+}
+
+.main-title {
+    font-weight: 700;
+    font-size: 18px;
+    color: #00FF5E;
+    text-shadow: 0 0 10px #00FF5E;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.sub-title {
+    font-weight: 400;
+    font-size: 11px;
+    color: #FFFFFF;
+    opacity: 0.7;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.profile-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 6px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 255, 94, 0.3);
+    transition: none;
+    width: fit-content;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profile-status:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estilos para status na barra principal */
+.profile-status .status-icon {
+    font-size: 10px;
+    transition: none;
+}
+
+.profile-status .status-text {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: none;
+}
+
+.profile-status .status-details {
+    font-size: 10px;
+    color: #FFFFFF;
+    opacity: 0.7;
+    transition: none;
+}
+
+/* Ícone de status SVG */
+.status-dot-icon {
+    width: 12px;
+    height: 12px;
+    transition: all 0.3s ease;
+}
+
+/* Estados específicos do status */
+.profile-status.status-deslogado .status-icon {
+    color: #FF4D4D;
+    text-shadow: 0 0 6px #FF4D4D;
+}
+
+.profile-status.status-deslogado .status-dot-icon {
+    color: #FF4D4D;
+    filter: drop-shadow(0 0 6px #FF4D4D);
+}
+
+.profile-status.status-deslogado .status-text {
+    color: #FF4D4D;
+    text-shadow: 0 0 6px rgba(255, 77, 77, 0.8);
+}
+
+.profile-status.status-carregando .status-icon {
+    color: #FFAA00;
+    text-shadow: 0 0 6px #FFAA00;
+}
+
+.profile-status.status-carregando .status-dot-icon {
+    color: #FFAA00;
+    filter: drop-shadow(0 0 6px #FFAA00);
+}
+
+.profile-status.status-carregando .status-text {
+    color: #FFAA00;
+    text-shadow: 0 0 6px rgba(255, 170, 0, 0.8);
+}
+
+.profile-status.status-logado .status-icon {
+    color: #00FF5E;
+    text-shadow: 0 0 6px #00FF5E;
+}
+
+.profile-status.status-logado .status-dot-icon {
+    color: #00FF5E;
+    filter: drop-shadow(0 0 6px #00FF5E);
+}
+
+.profile-status.status-logado .status-text {
+    color: #00FF5E;
+    text-shadow: 0 0 6px rgba(0, 255, 94, 0.8);
+}
+
+.profile-status.status-erro .status-icon {
+    color: #FF4D4D;
+    text-shadow: 0 0 6px #FF4D4D;
+}
+
+.profile-status.status-erro .status-dot-icon {
+    color: #FF4D4D;
+    filter: drop-shadow(0 0 6px #FF4D4D);
+}
+
+.profile-status.status-erro .status-text {
+    color: #FF4D4D;
+    text-shadow: 0 0 6px rgba(255, 77, 77, 0.8);
+}
+
+.window-controls {
+    display: flex;
+    gap: 6px;
+    -webkit-app-region: no-drag;
+    align-items: center; /* Centralização vertical dos botões */
+}
+
+.window-controls button {
+    background: #000000;
+    border: 1px solid #00FF5E;
+    color: #00FF5E;
+    padding: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px; /* Fonte um pouco menor para equilibrar com o ícone */
+    font-weight: bold;
+    width: 36px !important; /* Largura fixa FORÇADA para todos os botões */
+    height: 36px !important; /* Altura fixa FORÇADA para todos os botões */
+    min-width: 36px !important; /* Garantindo tamanho mínimo */
+    min-height: 36px !important; /* Garantindo tamanho mínimo */
+    max-width: 36px !important; /* Garantindo tamanho máximo */
+    max-height: 36px !important; /* Garantindo tamanho máximo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-family: 'Consolas', monospace;
+    box-sizing: border-box; /* Garantindo que border seja incluída no tamanho */
+}
+
+.window-controls button:hover {
+    background: #00FF5E;
+    color: #000000;
+    box-shadow: 0 0 10px #00FF5E;
+    transform: scale(1.05);
+}
+
+#btn-close:hover {
+    background: #FF4D4D !important;
+    border-color: #FF4D4D !important;
+    color: #000000 !important;
+    box-shadow: 0 0 10px #FF4D4D !important;
+}
+
+/* Estilo para ícones dos botões de controle */
+.window-controls button img {
+    width: 20px !important; /* Ícone menor para deixar proporcional */
+    height: 20px !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    display: block;
+    /* SVG já tem a cor verde correta, sem necessidade de filtros */
+}
+
+.window-controls button:hover img {
+    filter: drop-shadow(0 0 8px #00FF5E);
+    transform: scale(1.05); /* Escala menor para manter proporção com ícone reduzido */
+}
+
+/* Estilo específico para o botão de esconder (SVG) */
+#btn-tray:hover img {
+    /* Filtro para transformar verde em preto no hover */
+    filter: brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+    transform: scale(1.05); /* Escala consistente com outros botões */
+}
+
+/* Estilos para ícones SVG dos controles de janela */
+.window-control-icon {
+    width: 16px !important;
+    height: 16px !important;
+    color: #00FF5E;
+    transition: all 0.2s ease;
+}
+
+/* Estilos para ícones SVG dos modais e alertas */
+.modal-close-icon,
+.alert-close-icon,
+.session-alert-close-icon {
+    width: 16px;
+    height: 16px;
+    color: #00FF5E;
+    transition: all 0.3s ease;
+}
+
+.alert-close:hover .alert-close-icon,
+.session-alert-close:hover .session-alert-close-icon,
+.status-modal-close:hover .modal-close-icon {
+    color: #ffffff;
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 8px #00FF5E);
+}
+
+/* Estilo para ícone de aviso SVG */
+.session-alert-warning-icon {
+    width: 24px;
+    height: 24px;
+    color: #FFC107;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.6));
+}
+
+/* Menu Lateral - NOVA PALETA CYBER */
+.sidebar {
+    width: 85px;
+    background: #000000;
+    border-right: 2px solid #00FF5E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 90px;
+    gap: 18px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 998;
+    box-shadow: 2px 0 15px rgba(0, 255, 94, 0.3);
+}
+
+.menu-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: transparent;
+    border: 1px solid rgba(0, 255, 94, 0.3);
+    position: relative;
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: menuEntrance 0.6s ease-out forwards;
+}
+
+/* Aplicar animação sequencial aos ícones do menu */
+.menu-icon:nth-child(1) { animation-delay: 0.1s; }
+.menu-icon:nth-child(2) { animation-delay: 0.2s; }
+.menu-icon:nth-child(3) { animation-delay: 0.3s; }
+.menu-icon:nth-child(4) { animation-delay: 0.4s; }
+.menu-icon:nth-child(5) { animation-delay: 0.5s; }
+.menu-icon:nth-child(6) { animation-delay: 0.6s; }
+
+.menu-icon:hover {
+    background: rgba(0, 255, 94, 0.1);
+    border-color: #00FF5E;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.5);
+}
+
+.menu-icon.active {
+    background: rgba(0, 255, 94, 0.2);
+    border-color: #00FF5E;
+    box-shadow: 0 0 20px rgba(0, 255, 94, 0.7);
+}
+
+.menu-icon.active::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background: #00FF5E;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 10px #00FF5E;
+}
+
+.menu-icon img {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+    transition: all 0.2s ease;
+}
+
+.menu-icon:hover img {
+    opacity: 1;
+    filter: brightness(0) invert(1) drop-shadow(0 0 8px #00FF5E);
+}
+
+.menu-icon.active img {
+    opacity: 1;
+    filter: brightness(0) invert(1) drop-shadow(0 0 12px #00FF5E);
+}
+
+/* Estilos para módulos bloqueados (sistema automático) */
+.menu-icon.blocked {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(128, 128, 128, 0.1);
+    border-color: rgba(128, 128, 128, 0.3);
+    pointer-events: auto;
+    position: relative;
+}
+
+.menu-icon.blocked:hover {
+    background: rgba(128, 128, 128, 0.1);
+    border-color: rgba(128, 128, 128, 0.3);
+    transform: none;
+    box-shadow: none;
+}
+
+.menu-icon.blocked img {
+    opacity: 0.4;
+    filter: grayscale(100%) brightness(0.6);
+}
+
+.menu-icon.blocked::before {
+    content: "Login necessário para acessar este módulo";
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.95);
+    color: #FFFFFF;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    font-family: 'Consolas', monospace;
+}
+
+.menu-icon.blocked:hover::before {
+    opacity: 1;
+}
+
+.menu-icon.blocked::after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background: url('../assets/icons/lock.svg') no-repeat center;
+    background-size: contain;
+    display: inline-block;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    font-size: 10px;
+    background-color: #808080;
+    color: #000;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Área de Conteúdo - Páginas */
+.page-content {
+    margin-left: 85px;
+    margin-top: 80px;
+    width: calc(100% - 85px);
+    height: calc(100% - 80px);
+    border: none;
+}
+
+/* Instagram WebView */
+#insta {
+    background: #FFFFFF;
+    border-left: 1px solid #00FF5E;
+    border-top: 1px solid #00FF5E;
+}
+
+/* Tela de Estatísticas */
+#pagina-estatisticas {
+    background: #000000;
+    color: #00FF5E;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.stats-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stats-header {
+    margin-bottom: 30px;
+}
+
+.stats-title-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.stats-title-content {
+    text-align: center;
+    flex: 1;
+}
+
+.stats-header h1 {
+    font-size: 28px;
+    color: #00FF5E;
+    text-shadow: 0 0 10px #00FF5E;
+    margin-bottom: 10px;
+}
+
+.stats-header p {
+    color: #FFFFFF;
+    opacity: 0.8;
+    font-size: 16px;
+}
+
+/* Botão Atualizar Dados */
+.refresh-btn {
+    background: #000000;
+    border: 2px solid #00FF5E;
+    color: #00FF5E;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(0, 255, 94, 0.3);
+    min-width: 140px;
+}
+
+.refresh-btn:hover {
+    background: #00FF5E;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 255, 94, 0.5);
+}
+
+.refresh-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 255, 94, 0.4);
+}
+
+.refresh-btn.loading {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.refresh-btn.loading:hover {
+    background: #000000;
+    color: #00FF5E;
+    transform: none;
+}
+
+/* Card do Perfil */
+.profile-card {
+    background: #111111;
+    border: 1px solid #00FF5E;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.3);
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #00FF5E;
+    object-fit: cover;
+}
+
+.profile-details h3 {
+    color: #00FF5E;
+    font-size: 20px;
+    margin: 0 0 5px 0;
+}
+
+.profile-details span {
+    color: #FFFFFF;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+/* Grid de Métricas */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.metric-card {
+    background: #111111;
+    border: 1px solid #00FF5E;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 94, 0.2);
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 255, 94, 0.5);
+}
+
+.metric-icon {
+    font-size: 24px;
+    width: 40px;
+    text-align: center;
+}
+
+.metric-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00FF5E;
+    text-shadow: 0 0 5px #00FF5E;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: #FFFFFF;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Grid de Gráficos */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+}
+
+.chart-card {
+    background: #111111;
+    border: 1px solid #00FF5E;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.3);
+}
+
+.chart-card h3 {
+    color: #00FF5E;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align: center;
+    text-shadow: 0 0 5px #00FF5E;
+}
+
+.chart-card canvas {
+    width: 100% !important;
+    height: 200px !important;
+}
+
+/* Estilos Globais para Módulos */
+.settings-container,
+.automation-container,
+.reports-container,
+.schedule-container {
+    background: #000000;
+    color: #FFFFFF;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.settings-header,
+.automation-header,
+.reports-header,
+.schedule-header {
+    border-bottom: 2px solid #00FF5E;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings-header h1,
+.automation-header h1,
+.reports-header h1,
+.schedule-header h1 {
+    color: #00FF5E;
+    font-size: 28px;
+    text-shadow: 0 0 10px #00FF5E;
+    margin: 0;
+}
+
+.settings-header p,
+.automation-header p,
+.reports-header p,
+.schedule-header p {
+    color: #FFFFFF;
+    opacity: 0.8;
+    margin: 5px 0 0 0;
+}
+
+/* Botões Globais */
+.btn-primary {
+    background: #00FF5E;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+    background: #00FF7F;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.8);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #00FF5E;
+    border: 1px solid #00FF5E;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #00FF5E;
+    color: #000000;
+}
+
+.btn-danger {
+    background: #FF4D4D;
+    color: #000000;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background: #FF6666;
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.8);
+}
+
+/* Módulo de Configurações */
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.settings-section {
+    background: #111111;
+    border: 1px solid #00FF5E;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.2);
+}
+
+.settings-section h3 {
+    color: #00FF5E;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-item label {
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+.setting-item input,
+.setting-item select {
+    background: #000000;
+    border: 1px solid #00FF5E;
+    color: #00FF5E;
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+
+.settings-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+/* Módulo de Automação */
+.automation-status {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status.paused {
+    background: #FF4D4D;
+    color: #000000;
+}
+
+.status.active {
+    background: #00FF5E;
+    color: #000000;
+}
+
+.automation-section {
+    background: #111111;
+    border: 1px solid #00FF5E;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.2);
+}
+
+.automation-section h3 {
+    color: #00FF5E;
+    margin-bottom: 15px;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.action-card {
+    background: #000000;
+    border: 1px solid rgba(0, 255, 94, 0.5);
+    border-radius: 8px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.action-card:hover {
+    border-color: #00FF5E;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.3);
+}
+
+.action-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-icon-svg {
+    width: 24px;
+    height: 24px;
+    color: #00FF5E;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 94, 0.6));
+    transition: all 0.3s ease;
+}
+
+.action-card:hover .action-icon-svg {
+    color: #FFFFFF;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 94, 0.8));
+    transform: scale(1.1);
+}
+
+.action-info h4 {
+    color: #00FF5E;
+    margin: 0 0 5px 0;
+}
+
+.action-info p {
+    color: #FFFFFF;
+    opacity: 0.7;
+    margin: 0 0 10px 0;
+    font-size: 14px;
+}
+
+.activity-log {
+    background: #000000;
+    border: 1px solid #00FF5E;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.log-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filter-btn {
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: #00FF5E;
+    color: #000000;
+    border-color: #00FF5E;
+}
+
+.log-item {
+    display: flex;
+    gap: 15px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.log-item:last-child {
+    border-bottom: none;
+}
+
+.log-time {
+    color: #FFFFFF;
+    opacity: 0.6;
+    font-size: 12px;
+    min-width: 60px;
+}
+
+.log-action {
+    min-width: 100px;
+}
+
+.log-action.like {
+    color: #FF6B9D;
+}
+
+.log-action.follow {
+    color: #4A90E2;
+}
+
+.log-action.story {
+    color: #F5A623;
+}
+
+/* Módulo de Relatórios */
+.period-selector {
+    display: flex;
+    gap: 10px;
+}
+
+.period-btn {
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid #00FF5E;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.period-btn.active,
+.period-btn:hover {
+    background: #00FF5E;
+    color: #000000;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background: #111111;
+    border: 1px solid #00FF5E;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.2);
+}
+
+.summary-icon {
+    font-size: 24px;
+    color: #00FF5E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.summary-icon-svg {
+    width: 24px;
+    height: 24px;
+    color: #00FF5E;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 94, 0.6));
+    transition: all 0.3s ease;
+}
+
+.summary-card:hover .summary-icon-svg {
+    color: #FFFFFF;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 94, 0.8));
+    transform: scale(1.1);
+}
+
+.summary-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00FF5E;
+    display: block;
+}
+
+.summary-label {
+    color: #FFFFFF;
+    opacity: 0.7;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.reports-section {
+    background: #111111;
+    border: 1px solid #00FF5E;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.2);
+}
+
+.reports-section h3 {
+    color: #00FF5E;
+    margin-bottom: 15px;
+}
+
+/* Módulo de Agendamento */
+.schedule-status {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.status-card {
+    background: #111111;
+    border: 1px solid #00FF5E;
+    border-radius: 8px;
+    padding: 15px;
+    flex: 1;
+    text-align: center;
+}
+
+.status-label {
+    color: #FFFFFF;
+    opacity: 0.7;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.schedules-section {
+    background: #111111;
+    border: 1px solid #00FF5E;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.schedule-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.schedule-item:last-child {
+    border-bottom: none;
+}
+
+.schedule-info h4 {
+    color: #00FF5E;
+    margin: 0 0 5px 0;
+}
+
+.schedule-info p {
+    color: #FFFFFF;
+    opacity: 0.7;
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.schedule-time {
+    color: #FFFFFF;
+    opacity: 0.8;
+    font-size: 12px;
+}
+
+.schedule-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-icon {
+    background: transparent;
+    border: 1px solid #00FF5E;
+    color: #00FF5E;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-icon:hover {
+    background: #00FF5E;
+    color: #000000;
+}
+
+.btn-icon.danger {
+    border-color: #FF4D4D;
+    color: #FF4D4D;
+}
+
+.btn-icon.danger:hover {
+    background: #FF4D4D;
+    color: #000000;
+}
+
+/* Ícones SVG de controle */
+.control-icon-svg {
+    width: 16px;
+    height: 16px;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.btn-icon:hover .control-icon-svg {
+    transform: scale(1.1);
+}
+
+/* Ícone de relógio */
+.clock-icon-svg {
+    width: 14px;
+    height: 14px;
+    color: #00FF5E;
+    margin-right: 6px;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 94, 0.6));
+}
+
+.calendar-view {
+    background: #000000;
+    border: 1px solid #00FF5E;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: #00FF5E;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.calendar-day {
+    background: #111111;
+    padding: 10px;
+    min-height: 80px;
+}
+
+.day-header {
+    color: #00FF5E;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.event {
+    background: #00FF5E;
+    color: #000000;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 10px;
+    margin: 2px 0;
+    text-align: center;
+}
+
+.event.likes {
+    background: #FF6B9D;
+}
+
+.event.follows {
+    background: #4A90E2;
+}
+
+.event.stories {
+    background: #F5A623;
+}
+
+/* Responsividade para Mobile */
+@media (max-width: 768px) {
+    .actions-grid,
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .schedule-status {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .calendar-grid {
+        grid-template-columns: repeat(7, 1fr);
+        font-size: 10px;
+    }
+}
+
+/* Scrollbar Personalizada - VERDE NEON */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #121212;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00FF5E;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 255, 94, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #00FF5E;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.8);
+}
+
+/* Efeitos Cyber Adicionais */
+.topbar::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, #00FF5E 50%, transparent 100%);
+    animation: neonPulse 2s ease-in-out infinite alternate;
+}
+
+.sidebar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -2px;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 0%, #00FF5E 50%, transparent 100%);
+    animation: neonPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes neonPulse {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes neonFlash {
+    0% { 
+        box-shadow: 0 0 5px #00FF5E;
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 25px #00FF5E, 0 0 35px #00FF5E;
+        transform: scale(1.15);
+    }
+    100% { 
+        box-shadow: 0 0 5px #00FF5E;
+        transform: scale(1);
+    }
+}
+
+/* Animação de entrada sequencial para menu */
+@keyframes menuEntrance {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animação para módulos bloqueados */
+@keyframes blockedPulse {
+    0%, 100% {
+        opacity: 0.4;
+        border-color: rgba(255, 77, 77, 0.3);
+    }
+    50% {
+        opacity: 0.6;
+        border-color: rgba(255, 77, 77, 0.5);
+    }
+}
+
+/* Animações para StatusBar Inteligente */
+@keyframes statusPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 6px currentColor;
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(1.3);
+        box-shadow: 0 0 12px currentColor;
+    }
+}
+
+@keyframes statusBlink {
+    0% {
+        opacity: 1;
+        box-shadow: 0 0 6px currentColor;
+    }
+    100% {
+        opacity: 0.3;
+        box-shadow: 0 0 16px currentColor;
+    }
+}
+
+/* Modal da StatusBar Inteligente */
+.status-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.status-modal-overlay.visible {
+    opacity: 1;
+}
+
+.status-modal-content {
+    background: #000000;
+    border: 2px solid #00FF5E;
+    border-radius: 15px;
+    padding: 24px;
+    min-width: 400px;
+    max-width: 500px;
+    max-height: 70vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 0 30px rgba(0, 255, 94, 0.5);
+}
+
+.status-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #FF4D4D;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.status-modal-close:hover {
+    background: #FF4D4D;
+    color: #000000;
+    box-shadow: 0 0 10px #FF4D4D;
+}
+
+.status-modal-title {
+    color: #00FF5E;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(0, 255, 94, 0.8);
+    text-align: center;
+}
+
+.status-modal-current {
+    background: rgba(0, 255, 94, 0.1);
+    border: 1px solid rgba(0, 255, 94, 0.3);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.status-current-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.status-current-item:last-child {
+    margin-bottom: 0;
+}
+
+.status-current-label {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.status-current-value {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.status-current-value.logado {
+    color: #00FF5E;
+    background: rgba(0, 255, 94, 0.2);
+}
+
+.status-current-value.deslogado,
+.status-current-value.erro {
+    color: #FF4D4D;
+    background: rgba(255, 77, 77, 0.2);
+}
+
+.status-current-value.carregando {
+    color: #FFAA00;
+    background: rgba(255, 170, 0, 0.2);
+}
+
+.status-current-details {
+    color: #FFFFFF;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.status-history-title {
+    color: #00FF5E;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-shadow: 0 0 8px rgba(0, 255, 94, 0.6);
+}
+
+.status-history-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.status-history-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-history-item:last-child {
+    border-bottom: none;
+}
+
+.status-history-time {
+    color: #FFFFFF;
+    font-size: 11px;
+    opacity: 0.6;
+    min-width: 70px;
+}
+
+.status-history-status {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.status-history-status.logado {
+    color: #00FF5E;
+    background: rgba(0, 255, 94, 0.2);
+}
+
+.status-history-status.deslogado,
+.status-history-status.erro {
+    color: #FF4D4D;
+    background: rgba(255, 77, 77, 0.2);
+}
+
+.status-history-status.carregando {
+    color: #FFAA00;
+    background: rgba(255, 170, 0, 0.2);
+}
+
+.status-history-text {
+    color: #FFFFFF;
+    font-size: 12px;
+    flex: 1;
+    opacity: 0.8;
+}
+
+.status-modal-refresh {
+    background: #00FF5E;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-modal-refresh:hover {
+    background: #00FF7F;
+    box-shadow: 0 0 15px rgba(0, 255, 94, 0.8);
+    transform: translateY(-2px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .topbar {
+        height: 60px;
+        padding: 0 16px;
+    }
+    
+    .title {
+        font-size: 12px;
+        display: block;
+        margin-left: 5px;
+    }
+    
+    .logo-img {
+        width: 42px; /* Aumentado proporcionalmente para mobile */
+        height: 42px;
+        border-radius: 6px;
+        margin-right: 12px;
+        margin-left: 12px; /* Alinhado com sidebar mobile (50px/2 - 21px/2 = ~12px) */
+    }
+    
+    .intelligent-status-bar {
+        min-width: 240px;
+        padding: 6px 12px;
+        gap: 12px;
+    }
+    
+    .status-text {
+        font-size: 10px;
+        letter-spacing: 0.6px;
+    }
+    
+    .status-details {
+        font-size: 9px;
+    }
+    
+    .status-animation {
+        width: 3px;
+        height: 3px;
+        margin-left: 6px;
+    }
+    
+    .window-controls button {
+        padding: 6px 8px;
+        font-size: 12px;
+        min-width: 24px;
+    }
+    
+    .sidebar {
+        width: 50px;
+        padding-top: 70px;
+    }
+    
+    .page-content {
+        margin-left: 50px;
+        margin-top: 60px;
+        height: calc(100% - 60px);
+        width: calc(100% - 50px);
+    }
+
+    .metrics-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .metric-card {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .metric-value {
+        font-size: 20px;
+    }
+
+    .stats-header h1 {
+        font-size: 24px;
+    }
+
+    .coming-soon h2 {
+        font-size: 28px;
+    }
+    
+    .menu-icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .menu-icon img {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .status-modal-content {
+        min-width: 320px;
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .status-modal-title {
+        font-size: 18px;
+    }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════════ */
+/*                    ÍCONES SVG INLINE - SUBSTITUINDO EMOJIS                     */
+/* Sistema de ícones visuais responsivos em SVG para máxima compatibilidade        */
+/* ════════════════════════════════════════════════════════════════════════════════ */
+
+/* Ícone de cadeado (lock) */
+.lock-icon {
+    position: relative;
+}
+
+.lock-icon::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    background: url('../assets/icons/lock.svg') no-repeat center;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+/* Ícone de cadeado visual para alertas */
+.lock-icon-visual {
+    width: 32px;
+    height: 32px;
+    background: url('../assets/icons/lock-large.svg') no-repeat center;
+    background-size: contain;
+    flex-shrink: 0;
+}
+
+/* Classes antigas de ícones removidas - agora usando ícones SVG reais */
+
+/* ════════════════════════════════════════════════════════════════════════════════ */
+/*                    SISTEMA DE BLINDAGEM DE SESSÃO (PARTE 6)                    */
+/* Estilos para alertas de sessão expirada com design cyber                          */
+/* ════════════════════════════════════════════════════════════════════════════════ */
+
+.session-expired-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    border: 2px solid #00FF5E;
+    border-radius: 12px;
+    padding: 0;
+    z-index: 9999;
+    min-width: 400px;
+    max-width: 500px;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 94, 0.3),
+        0 10px 40px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    user-select: none;
+}
+
+.session-expired-alert.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.session-alert-content {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    position: relative;
+}
+
+.session-alert-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.6));
+    animation: sessionPulse 2s ease-in-out infinite;
+}
+
+.session-alert-text {
+    flex: 1;
+    color: #FFFFFF;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.session-alert-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #00FF5E;
+    text-shadow: 0 0 10px rgba(0, 255, 94, 0.5);
+}
+
+.session-alert-subtitle {
+    font-size: 13px;
+    color: #CCCCCC;
+    opacity: 0.9;
+}
+
+.session-alert-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    color: #CCCCCC;
+    font-size: 20px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.session-alert-close:hover {
+    color: #00FF5E;
+    background: rgba(0, 255, 94, 0.1);
+    transform: scale(1.1);
+}
+
+.session-alert-progress {
+    height: 3px;
+    background: linear-gradient(90deg, #00FF5E, #00CC4A, #00FF5E);
+    background-size: 200% 100%;
+    animation: sessionProgress 3s ease-in-out infinite;
+}
+
+/* Animações específicas para sessão */
+@keyframes sessionPulse {
+    0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.6));
+    }
+    50% { 
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 12px rgba(255, 193, 7, 0.8));
+    }
+}
+
+@keyframes sessionProgress {
+    0% {
+        background-position: -200% 0;
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        background-position: 200% 0;
+        opacity: 0.7;
+    }
+}
+
+/* Responsividade para alertas de sessão em telas menores */
+@media (max-width: 600px) {
+    .session-expired-alert {
+        min-width: 320px;
+        max-width: 90vw;
+        left: 50%;
+        right: auto;
+    }
+    
+    .session-alert-content {
+        padding: 14px 16px;
+    }
+    
+    .session-alert-title {
+        font-size: 15px;
+    }
+    
+    .session-alert-subtitle {
+        font-size: 12px;
+    }
+}
+
+ 

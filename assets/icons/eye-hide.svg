@@ -1,0 +1,10 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esconder para bandeja" focusable="false">
+  <!-- Olho (formato oval) -->
+  <ellipse cx="18" cy="18" rx="12" ry="7" stroke="#00FF5E" stroke-width="2" fill="none"/>
+  
+  <!-- Pupila (círculo central) -->
+  <circle cx="18" cy="18" r="3" fill="#00FF5E"/>
+  
+  <!-- Linha diagonal cortando o olho (esquerda-baixo para direita-cima) -->
+  <line x1="6" y1="30" x2="30" y2="6" stroke="#00FF5E" stroke-width="2.5" stroke-linecap="round"/>
+</svg> 

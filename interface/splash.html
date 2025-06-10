@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>InstaBot - Iniciando Sistema...</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000000;
+      color: #00FF5E;
+      font-family: "Consolas", "Courier New", monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00FF5E;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    .typewriter {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 3px solid #00FF5E;
+      animation: typing 2.5s steps(25, end), blink 0.7s step-end infinite alternate;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .progress-bar {
+      width: 300px;
+      height: 4px;
+      background: #001a00;
+      margin: 20px 0;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00FF5E, #00CC4A);
+      width: 0%;
+      animation: progress 3s ease-out forwards;
+      box-shadow: 0 0 10px #00FF5E;
+    }
+
+    .subtitle {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #00FF5E88;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .version {
+      position: absolute;
+      bottom: 20px;
+      font-size: 12px;
+      color: #00FF5E44;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00FF5E; }
+      to { text-shadow: 0 0 20px #00FF5E, 0 0 30px #00FF5E; }
+    }
+
+    @keyframes progress {
+      0% { width: 0%; }
+      50% { width: 60%; }
+      100% { width: 100%; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">INSTABOT</div>
+  <div class="typewriter" id="status-text">Iniciando sistema de automação...</div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+  <div class="subtitle" id="subtitle">Sistema cibernético carregando</div>
+  <div class="version">Criado por Marlon Gostosão © 2025</div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+    
+    console.log('[SPLASH] Splash screen sincronizada carregada com IPC');
+    
+    // Elementos da interface
+    const statusText = document.getElementById('status-text');
+    const progressFill = document.getElementById('progress-fill');
+    const subtitle = document.getElementById('subtitle');
+    
+    // Estado inicial
+    statusText.textContent = 'Iniciando sistema...';
+    progressFill.style.width = '0%';
+    subtitle.textContent = 'Aguardando carregamento...';
+    
+    // Listener para atualizações de progresso em tempo real
+    ipcRenderer.on('splash-progress', (event, data) => {
+      console.log(`[SPLASH-IPC] ${data.message} (${data.progress}%)`);
+      
+      // Atualizar interface com dados reais do processo principal
+      statusText.textContent = data.message;
+      progressFill.style.width = data.progress + '%';
+      subtitle.textContent = `${data.progress}% carregado`;
+      
+      // Efeito visual quando completar
+      if (data.progress >= 100) {
+        setTimeout(() => {
+          statusText.textContent = 'Sistema pronto!';
+          subtitle.textContent = 'Iniciando interface principal...';
+          document.body.style.transition = 'opacity 0.5s ease-out';
+          document.body.style.opacity = '0.8';
+        }, 200);
+      }
+    });
+    
+    // Listener para casos de erro crítico
+    ipcRenderer.on('splash-error', (event, errorData) => {
+      console.error('[SPLASH-ERROR]', errorData);
+      
+      statusText.textContent = 'Erro durante inicialização!';
+      progressFill.style.background = '#FF4D4D';
+      subtitle.textContent = errorData.message || 'Erro desconhecido';
+    });
+    
+    // Progresso inicial manual enquanto aguarda primeira atualização
+    let initialProgress = 0;
+    const initialInterval = setInterval(() => {
+      if (initialProgress < 15) {
+        initialProgress += 1;
+        progressFill.style.width = initialProgress + '%';
+        subtitle.textContent = `${initialProgress}% carregado`;
+      } else {
+        clearInterval(initialInterval);
+        console.log('[SPLASH] Aguardando atualizações do processo principal...');
+      }
+    }, 100);
+    
+    console.log('[SPLASH] Sistema IPC configurado - aguardando carregamento real');
+  </script>
+</body>
+</html> 

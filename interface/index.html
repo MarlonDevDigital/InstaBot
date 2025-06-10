@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>InstaBot v1.0 - Interface Principal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+      <div class="topbar">
+    <div class="header-content">
+      <div class="header-logo">
+      <img src="../assets/logo/logo-instabot.png" class="logo-img" alt="Logo InstaBot">
+            </div>
+      <div class="header-titles">
+        <div class="main-title">InstaBot</div>
+        <div class="sub-title">Created by Marlon Digital</div>
+      </div>
+        </div>
+        
+    <!-- Status centralizado -->
+    <div class="profile-status" id="profile-status">
+      <span class="status-icon" id="status-icon">
+        <img src="../assets/icons/status-dot.svg" alt="Status" class="status-dot-icon">
+      </span>
+      <span class="status-text" id="status-text">INICIALIZANDO</span>
+      <span class="status-details" id="status-details">Carregando sistema...</span>
+    </div>
+    
+    <div class="window-controls">
+      <button id="btn-tray">
+        <img src="../assets/icons/eye-hide.svg" alt="Esconder para bandeja">
+      </button>
+      <button id="btn-minimize">
+        <img src="../assets/icons/minimize.svg" alt="Minimizar" class="window-control-icon">
+      </button>
+      <button id="btn-close">
+        <img src="../assets/icons/close.svg" alt="Fechar" class="window-control-icon">
+      </button>
+    </div>
+                    </div>
+
+
+                    
+    <div class="sidebar">
+        <div class="menu-icon" data-action="instagram" title="Instagram"><img src="../assets/icons/icon-instagram.png" /></div>
+        <div class="menu-icon" data-action="stats" title="Estatísticas"><img src="../assets/icons/icon-stats.png" /></div>
+        <div class="menu-icon" data-action="automation" title="Automação"><img src="../assets/icons/icon-automation.png" /></div>
+        <div class="menu-icon" data-action="posts" title="Posts"><img src="../assets/icons/icon-posts.png" /></div>
+        <div class="menu-icon" data-action="schedule" title="Agendamento"><img src="../assets/icons/icon-schedule.png" /></div>
+        <div class="menu-icon" data-action="settings" title="Configurações"><img src="../assets/icons/icon-settings.png" /></div>
+    </div>
+
+    <!-- Página Instagram (WebView) - PÁGINA PADRÃO -->
+    <webview id="insta" class="page-content" src="https://www.instagram.com" partition="persist:instagram" allowpopups style="display: block;"></webview>
+    
+    <!-- Página de Estatísticas -->
+    <div id="pagina-estatisticas" class="page-content" style="display: none;">
+        <div class="stats-container">
+            <div class="stats-header">
+                <div class="stats-title-section">
+                    <div class="stats-title-content">
+                        <h1>Painel de Estatísticas</h1>
+                        <p>Acompanhe o desempenho das suas automações</p>
+                    </div>
+                    <button id="refresh-profile-btn" class="refresh-btn" style="display: none;" title="Atualizar dados manualmente">
+                        Atualizar Perfil
+                    </button>
+                    <button id="extract-username-btn" class="refresh-btn" style="display: none; margin-left: 10px;" title="Extrair username do perfil">
+                        Extrair Username
+                    </button>
+                </div>
+            </div>
+
+            <!-- Perfil do Usuário -->
+            <div class="profile-card">
+                <div class="profile-info">
+                    <img id="profile-pic" src="https://via.placeholder.com/80x80/00FF5E/000000?text=USER" alt="Foto de Perfil">
+                    <div class="profile-details">
+                        <h3 id="profile-name">Aguardando login...</h3>
+                        <span id="profile-username">Faça login no Instagram</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Métricas Gerais -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-icon">SEG</span>
+                    <div class="metric-info">
+                        <span class="metric-value" id="total-followers">0</span>
+                        <span class="metric-label">Seguidores</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-icon">FLW</span>
+                    <div class="metric-info">
+                        <span class="metric-value" id="total-following">0</span>
+                        <span class="metric-label">Seguindo</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-icon">PST</span>
+                    <div class="metric-info">
+                        <span class="metric-value" id="total-posts">0</span>
+                        <span class="metric-label">Posts</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-icon">LIK</span>
+                    <div class="metric-info">
+                        <span class="metric-value" id="total-likes">0</span>
+                        <span class="metric-label">Likes Dados</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-icon">COM</span>
+                    <div class="metric-info">
+                        <span class="metric-value" id="total-comments">0</span>
+                        <span class="metric-label">Comentários</span>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-icon">ACT</span>
+                    <div class="metric-info">
+                        <span class="metric-value" id="total-actions">0</span>
+                        <span class="metric-label">Total Ações</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Seguidores por Dia</h3>
+                    <canvas id="followersChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Engajamento por Dia</h3>
+                    <canvas id="engagementChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Ações por Dia</h3>
+                    <canvas id="actionsChart" width="400" height="200"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Tipos de Ações</h3>
+                    <canvas id="actionsTypeChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Outras páginas (temporárias) -->
+    <div id="pagina-automation" class="page-content" style="display: none;">
+        <div class="automation-container">
+            <div class="automation-header">
+                <h1>Ações Automatizadas</h1>
+                <p>Configure e monitore suas automações</p>
+                <div class="automation-status">
+                    <span class="status-label">Status:</span>
+                    <span id="automation-status" class="status paused">PAUSADO</span>
+                    <button id="btn-toggle-automation" class="btn-primary">Iniciar</button>
+                </div>
+            </div>
+            
+            <div class="automation-content">
+                <!-- Seção: Ações Disponíveis -->
+                <div class="automation-section">
+                    <h3>Ações Disponíveis</h3>
+                    <div class="actions-grid">
+                        <div class="action-card" data-action="like">
+                            <div class="action-icon">
+                                <img src="../assets/icons/heart.svg" alt="Curtir" class="action-icon-svg">
+                            </div>
+                            <div class="action-info">
+                                <h4>Curtir Posts</h4>
+                                <p>Curtir posts automaticamente</p>
+                                <div class="action-controls">
+                                    <input type="checkbox" id="enable-likes">
+                                    <label>Ativar</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card" data-action="follow">
+                            <div class="action-icon">
+                                <img src="../assets/icons/plus.svg" alt="Seguir" class="action-icon-svg">
+                            </div>
+                            <div class="action-info">
+                                <h4>Seguir Usuários</h4>
+                                <p>Seguir perfis automaticamente</p>
+                                <div class="action-controls">
+                                    <input type="checkbox" id="enable-follows">
+                                    <label>Ativar</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card" data-action="comment">
+                            <div class="action-icon">
+                                <img src="../assets/icons/comment.svg" alt="Comentar" class="action-icon-svg">
+                            </div>
+                            <div class="action-info">
+                                <h4>Comentar</h4>
+                                <p>Comentários automáticos</p>
+                                <div class="action-controls">
+                                    <input type="checkbox" id="enable-comments">
+                                    <label>Ativar</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card" data-action="story">
+                            <div class="action-icon">
+                                <img src="../assets/icons/mobile.svg" alt="Stories" class="action-icon-svg">
+                            </div>
+                            <div class="action-info">
+                                <h4>Ver Stories</h4>
+                                <p>Visualizar stories automaticamente</p>
+                                <div class="action-controls">
+                                    <input type="checkbox" id="enable-stories">
+                                    <label>Ativar</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Seção: Configurações de Segurança -->
+                <div class="automation-section">
+                    <h3>Configurações de Segurança</h3>
+                    <div class="safety-grid">
+                        <div class="safety-item">
+                            <label>Intervalo entre ações:</label>
+                            <input type="range" id="action-delay" min="30" max="300" value="60">
+                            <span id="delay-value">60s</span>
+                        </div>
+                        <div class="safety-item">
+                            <label>Ações por hora:</label>
+                            <input type="range" id="actions-per-hour" min="10" max="50" value="25">
+                            <span id="actions-value">25</span>
+                        </div>
+                        <div class="safety-item">
+                            <label>Pausas aleatórias:</label>
+                            <input type="checkbox" id="random-pauses" checked>
+                            <span>Ativar pausas humanizadas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Seção: Log de Atividades -->
+                <div class="automation-section">
+                    <h3>Log de Atividades</h3>
+                    <div class="activity-log">
+                        <div class="log-filters">
+                            <button class="filter-btn active" data-filter="all">Todas</button>
+                            <button class="filter-btn" data-filter="likes">Curtidas</button>
+                            <button class="filter-btn" data-filter="follows">Seguir</button>
+                            <button class="filter-btn" data-filter="comments">Comentários</button>
+                        </div>
+                        <div class="log-content">
+                            <div class="log-item">
+                                <span class="log-time">14:32</span>
+                                <span class="log-action like">Curtiu post</span>
+                                <span class="log-target">@usuario123</span>
+                            </div>
+                            <div class="log-item">
+                                <span class="log-time">14:31</span>
+                                <span class="log-action follow">Seguiu usuário</span>
+                                <span class="log-target">@perfil_exemplo</span>
+                            </div>
+                            <div class="log-item">
+                                <span class="log-time">14:29</span>
+                                <span class="log-action story">Visualizou story</span>
+                                <span class="log-target">@conta_teste</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pagina-posts" class="page-content" style="display: none;">
+        <div class="reports-container">
+            <div class="reports-header">
+                <h1>Relatórios e Análises</h1>
+                <p>Acompanhe o desempenho das suas ações</p>
+                <div class="period-selector">
+                    <button class="period-btn active" data-period="today">Hoje</button>
+                    <button class="period-btn" data-period="week">7 dias</button>
+                    <button class="period-btn" data-period="month">30 dias</button>
+                </div>
+            </div>
+            
+            <div class="reports-content">
+                <!-- Resumo Geral -->
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <img src="../assets/icons/heart.svg" alt="Curtidas" class="summary-icon-svg">
+                        </div>
+                        <div class="summary-data">
+                            <span class="summary-number" id="total-likes-report">247</span>
+                            <span class="summary-label">Curtidas Dadas</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <img src="../assets/icons/plus.svg" alt="Seguindo" class="summary-icon-svg">
+                        </div>
+                        <div class="summary-data">
+                            <span class="summary-number" id="total-follows-report">18</span>
+                            <span class="summary-label">Novos Seguindo</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <img src="../assets/icons/users.svg" alt="Seguidores" class="summary-icon-svg">
+                        </div>
+                        <div class="summary-data">
+                            <span class="summary-number" id="total-followers-gained">+12</span>
+                            <span class="summary-label">Seguidores Ganhos</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <img src="../assets/icons/chart.svg" alt="Engajamento" class="summary-icon-svg">
+                        </div>
+                        <div class="summary-data">
+                            <span class="summary-number" id="engagement-rate">3.2%</span>
+                            <span class="summary-label">Taxa Engajamento</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gráfico de Atividade -->
+                <div class="reports-section">
+                    <h3>Atividade por Hora</h3>
+                    <div class="chart-container">
+                        <canvas id="activity-chart" width="800" height="300"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Tabela de Ações Recentes -->
+                <div class="reports-section">
+                    <h3>Ações Recentes</h3>
+                    <div class="recent-actions">
+                        <div class="actions-header">
+                            <div class="col-time">Horário</div>
+                            <div class="col-action">Ação</div>
+                            <div class="col-target">Alvo</div>
+                            <div class="col-result">Resultado</div>
+                        </div>
+                        <div class="actions-list">
+                            <div class="action-row">
+                                <div class="col-time">14:32:15</div>
+                                <div class="col-action">
+                                    <span class="action-type like">Curtir</span>
+                                </div>
+                                <div class="col-target">@exemplo_usuario</div>
+                                <div class="col-result">
+                                    <span class="result success">Sucesso</span>
+                                </div>
+                            </div>
+                            <div class="action-row">
+                                <div class="col-time">14:31:42</div>
+                                <div class="col-action">
+                                    <span class="action-type follow">Seguir</span>
+                                </div>
+                                <div class="col-target">@perfil_teste</div>
+                                <div class="col-result">
+                                    <span class="result success">Sucesso</span>
+                                </div>
+                            </div>
+                            <div class="action-row">
+                                <div class="col-time">14:30:18</div>
+                                <div class="col-action">
+                                    <span class="action-type story">Story</span>
+                                </div>
+                                <div class="col-target">@conta_exemplo</div>
+                                <div class="col-result">
+                                    <span class="result success">Sucesso</span>
+                                </div>
+                            </div>
+                            <div class="action-row">
+                                <div class="col-time">14:28:33</div>
+                                <div class="col-action">
+                                    <span class="action-type like">Curtir</span>
+                                </div>
+                                <div class="col-target">@usuario_ativo</div>
+                                <div class="col-result">
+                                    <span class="result error">Erro</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estatísticas Detalhadas -->
+                <div class="reports-section">
+                    <h3>Estatísticas Detalhadas</h3>
+                    <div class="detailed-stats">
+                        <div class="stat-group">
+                            <h4>Performance</h4>
+                            <div class="stat-item">
+                                <span>Taxa de sucesso:</span>
+                                <span class="stat-value">94.2%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Média por hora:</span>
+                                <span class="stat-value">15 ações</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Tempo ativo:</span>
+                                <span class="stat-value">6h 32m</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-group">
+                            <h4>Crescimento</h4>
+                            <div class="stat-item">
+                                <span>Seguidores hoje:</span>
+                                <span class="stat-value">+12</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Unfollows hoje:</span>
+                                <span class="stat-value">-3</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>Crescimento líquido:</span>
+                                <span class="stat-value">+9</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pagina-schedule" class="page-content" style="display: none;">
+        <div class="schedule-container">
+            <div class="schedule-header">
+                <h1>Agendamento de Ações</h1>
+                <p>Programe suas automações para horários específicos</p>
+                <button id="btn-new-schedule" class="btn-primary">Nova Programação</button>
+            </div>
+            
+            <div class="schedule-content">
+                <!-- Status da Programação -->
+                <div class="schedule-status">
+                    <div class="status-card">
+                        <span class="status-label">Status do Agendador:</span>
+                        <span id="scheduler-status" class="status active">ATIVO</span>
+                    </div>
+                    <div class="status-card">
+                        <span class="status-label">Próxima execução:</span>
+                        <span id="next-execution">Em 2h 15m</span>
+                    </div>
+                    <div class="status-card">
+                        <span class="status-label">Programações ativas:</span>
+                        <span id="active-schedules">3</span>
+                    </div>
+                </div>
+                
+                <!-- Lista de Programações -->
+                <div class="schedules-section">
+                    <h3>Programações Ativas</h3>
+                    <div class="schedules-list">
+                        <div class="schedule-item">
+                            <div class="schedule-info">
+                                <h4>Curtidas Matutinas</h4>
+                                <p>Curtir 20 posts automaticamente</p>
+                                <div class="schedule-time">
+                                    <span>
+                                        <img src="../assets/icons/clock.svg" alt="Horário" class="clock-icon-svg">
+                                        08:00 - Todos os dias
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="schedule-controls">
+                                <button class="btn-icon active" title="Pausar">
+                                    <img src="../assets/icons/pause.svg" alt="Pausar" class="control-icon-svg">
+                                </button>
+                                <button class="btn-icon" title="Editar">
+                                    <img src="../assets/icons/edit.svg" alt="Editar" class="control-icon-svg">
+                                </button>
+                                <button class="btn-icon danger" title="Excluir">
+                                    <img src="../assets/icons/delete.svg" alt="Excluir" class="control-icon-svg">
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item">
+                            <div class="schedule-info">
+                                <h4>Stories da Tarde</h4>
+                                <p>Visualizar stories de seguidores</p>
+                                <div class="schedule-time">
+                                    <span>
+                                        <img src="../assets/icons/clock.svg" alt="Horário" class="clock-icon-svg">
+                                        14:00 - Segunda a Sexta
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="schedule-controls">
+                                <button class="btn-icon active" title="Pausar">
+                                    <img src="../assets/icons/pause.svg" alt="Pausar" class="control-icon-svg">
+                                </button>
+                                <button class="btn-icon" title="Editar">
+                                    <img src="../assets/icons/edit.svg" alt="Editar" class="control-icon-svg">
+                                </button>
+                                <button class="btn-icon danger" title="Excluir">
+                                    <img src="../assets/icons/delete.svg" alt="Excluir" class="control-icon-svg">
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item">
+                            <div class="schedule-info">
+                                <h4>Follows Noturnos</h4>
+                                <p>Seguir 5 perfis relacionados</p>
+                                <div class="schedule-time">
+                                    <span>
+                                        <img src="../assets/icons/clock.svg" alt="Horário" class="clock-icon-svg">
+                                        20:30 - Terça e Quinta
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="schedule-controls">
+                                <button class="btn-icon paused" title="Retomar">
+                                    <img src="../assets/icons/play.svg" alt="Retomar" class="control-icon-svg">
+                                </button>
+                                <button class="btn-icon" title="Editar">
+                                    <img src="../assets/icons/edit.svg" alt="Editar" class="control-icon-svg">
+                                </button>
+                                <button class="btn-icon danger" title="Excluir">
+                                    <img src="../assets/icons/delete.svg" alt="Excluir" class="control-icon-svg">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Calendário de Atividades -->
+                <div class="calendar-section">
+                    <h3>Calendário de Execuções</h3>
+                    <div class="calendar-view">
+                        <div class="calendar-header">
+                            <button class="calendar-nav" id="prev-week">&lt;</button>
+                            <span class="calendar-title">Esta Semana</span>
+                            <button class="calendar-nav" id="next-week">&gt;</button>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="calendar-day">
+                                <div class="day-header">SEG</div>
+                                <div class="day-events">
+                                    <div class="event likes">08:00</div>
+                                    <div class="event stories">14:00</div>
+                                </div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-header">TER</div>
+                                <div class="day-events">
+                                    <div class="event likes">08:00</div>
+                                    <div class="event stories">14:00</div>
+                                    <div class="event follows">20:30</div>
+                                </div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-header">QUA</div>
+                                <div class="day-events">
+                                    <div class="event likes">08:00</div>
+                                    <div class="event stories">14:00</div>
+                                </div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-header">QUI</div>
+                                <div class="day-events">
+                                    <div class="event likes">08:00</div>
+                                    <div class="event stories">14:00</div>
+                                    <div class="event follows">20:30</div>
+                                </div>
+                            </div>
+                            <div class="calendar-day">
+                                <div class="day-header">SEX</div>
+                                <div class="day-events">
+                                    <div class="event likes">08:00</div>
+                                    <div class="event stories">14:00</div>
+                                </div>
+                            </div>
+                            <div class="calendar-day weekend">
+                                <div class="day-header">SAB</div>
+                                <div class="day-events">
+                                    <div class="event likes">08:00</div>
+                                </div>
+                            </div>
+                            <div class="calendar-day weekend">
+                                <div class="day-header">DOM</div>
+                                <div class="day-events">
+                                    <div class="event likes">08:00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Histórico de Execuções -->
+                <div class="history-section">
+                    <h3>Histórico de Execuções</h3>
+                    <div class="execution-history">
+                        <div class="history-item success">
+                            <div class="history-time">Hoje, 08:00</div>
+                            <div class="history-action">Curtidas Matutinas</div>
+                            <div class="history-result">20 curtidas executadas</div>
+                        </div>
+                        <div class="history-item success">
+                            <div class="history-time">Ontem, 20:30</div>
+                            <div class="history-action">Follows Noturnos</div>
+                            <div class="history-result">5 perfis seguidos</div>
+                        </div>
+                        <div class="history-item error">
+                            <div class="history-time">Ontem, 14:00</div>
+                            <div class="history-action">Stories da Tarde</div>
+                            <div class="history-result">Falha na execução</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pagina-settings" class="page-content" style="display: none;">
+        <div class="settings-container">
+            <div class="settings-header">
+                <h1>Configurações do Sistema</h1>
+                <p>Configure o comportamento do InstaBot</p>
+            </div>
+            
+            <div class="settings-content">
+                <!-- Seção: Conta Instagram -->
+                <div class="settings-section">
+                    <h3>Conta Instagram</h3>
+                    <div class="setting-item">
+                        <label>Username atual:</label>
+                        <span id="settings-current-username">@usuario</span>
+                        <button id="btn-reconfig-username" class="btn-secondary">Reconfigurar</button>
+                    </div>
+                    <div class="setting-item">
+                        <label>Status da sessão:</label>
+                        <span id="settings-session-status" class="status-indicator">Verificando...</span>
+                    </div>
+                </div>
+                
+                <!-- Seção: Automação -->
+                <div class="settings-section">
+                    <h3>Configurações de Automação</h3>
+                    <div class="setting-item">
+                        <label>Intervalo entre ações (segundos):</label>
+                        <input type="number" id="action-interval" min="30" max="300" value="60">
+                    </div>
+                    <div class="setting-item">
+                        <label>Máximo de ações por hora:</label>
+                        <input type="number" id="max-actions-hour" min="10" max="100" value="30">
+                    </div>
+                    <div class="setting-item">
+                        <label>Pausar automação durante:</label>
+                        <select id="pause-hours">
+                            <option value="none">Nunca pausar</option>
+                            <option value="night">Madrugada (00h-06h)</option>
+                            <option value="morning">Manhã (06h-12h)</option>
+                            <option value="afternoon">Tarde (12h-18h)</option>
+                            <option value="evening">Noite (18h-00h)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Seção: Interface -->
+                <div class="settings-section">
+                    <h3>Interface</h3>
+                    <div class="setting-item">
+                        <label>Minimizar para bandeja:</label>
+                        <input type="checkbox" id="minimize-to-tray" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label>Iniciar minimizado:</label>
+                        <input type="checkbox" id="start-minimized">
+                    </div>
+                    <div class="setting-item">
+                        <label>Mostrar notificações:</label>
+                        <input type="checkbox" id="show-notifications" checked>
+                    </div>
+                </div>
+                
+                <!-- Seção: Cache e Dados -->
+                <div class="settings-section">
+                    <h3>Cache e Dados</h3>
+                    <div class="setting-item">
+                        <label>Cache do perfil (minutos):</label>
+                        <input type="number" id="profile-cache-time" min="1" max="60" value="5">
+                    </div>
+                    <div class="setting-item">
+                        <label>Limpar dados salvos:</label>
+                        <button id="btn-clear-data" class="btn-danger">Limpar Cache</button>
+                    </div>
+                </div>
+                
+                <!-- Botões de Ação -->
+                <div class="settings-actions">
+                    <button id="btn-save-settings" class="btn-primary">Salvar Configurações</button>
+                    <button id="btn-reset-settings" class="btn-secondary">Restaurar Padrões</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
